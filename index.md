@@ -1,0 +1,2 @@
+## [SWGEmu Core3 on WSL 2](https://1sudo.github.io/swgemu_wsl2/)
+On this page I walk through how to setup and install WSL 2 as well as provide scripts for managing Core 3, providing shortcuts when developing on your server.
