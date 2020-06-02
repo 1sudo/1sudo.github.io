@@ -1,53 +1,6 @@
 #!/bin/bash
 
-ip = $(hostname -I)
-
-echo -e "\e[32m"
-echo    "____________________________________________________________________"
-echo    "|  _____ _____ ____  _____    _____ _____ _____ _____ _____ _____  |"
-echo    "| |   __|  |  |    \|     |  |   __|     | __  |     |  _  |_   _| |"
-echo    "| |__   |  |  |  |  |  |  |  |__   |   --|    -|-   -|   __| | |   |"
-echo    "| |_____|_____|____/|_____|  |_____|_____|__|__|_____|__|    |_|   |"
-echo    "===================================================================|"
-echo    "|                 v1.0 - for swgemu core3 on wsl2                  |"
-echo -e "====================================================================\n"
-echo -e "\e[0m"
-
-function update_system () {
-    read -p "Before setting up Core3, we need to perform some system updates, is this okay? `echo $'\n '`(Default: 'n') `echo $'\n> '`" update_system
-    update_system=${update_system:-n}
-
-    if [[ $update_system == "n" || $update_system == "no" ]]; then
-        echo "We will not update your system, exiting ..."
-        exit 1
-    elif [[ $update_system == "y" || $update_system == "yes" ]]; then
-        touch ~/.setup_flag
-        echo "Updating package database ... Please wait ..."
-        sudo apt-get update -qq
-        echo "Upgrading system ... Please wait ..."
-        sudo apt-get upgrade -y -qq
-        echo -e "Installing required packages ... Please wait ...\n"
-        sudo apt-get install build-essential libmysqlclient-dev liblua5.3-dev libdb5.3-dev libssl-dev cmake git default-jre mysql-server curl -y -qq
-    else
-        echo "Invalid option specified, exiting ..."
-        exit 1
-    fi
-}
-
-if [ -f ~/.setup_flag ]; then
-    echo "It appears you've already run the setup before."
-    read -p "  Do you need to run it again? `echo $'\n> '`" setup_again
-
-    if [[ $setup_again == "y" || $setup_again == "yes" ]]; then
-        rm -f ~/.setup_flag
-        update_system
-    else
-        echo "We will not run the setup again, exiting ..."
-        exit 1
-    fi
-else
-    update_system
-fi
+scripts="$HOME/github/1sudo.github.io/scripts"
 
 read -p "Enter your SWGEmu Core3 git repo URL `echo $'\n '` \
 (Default: 'https://github.com/swgemu/Core3.git') `echo $'\n> '`" core3_repo
@@ -74,6 +27,15 @@ if [ -d ~/workspace/Core3 ]; then
         # If we fail to delete the Core3 directory, delete as su
         if [ $? -gt 0 ]; then
             sudo rm -rf ~/workspace/Core3
+
+            # If delete fails as su, try removing immutable bit
+            if [ $? -gt 0 ]; then
+                sudo chattr -i ~/workspace/Core3
+                sudo rm -rf ~/workspace/Core3
+            else
+                echo "Unable to delete Core3 directory, exiting ..."
+                exit 1
+            fi
         fi
     else
         "We will not delete the existing Core 3 directory, exiting ..."
@@ -121,6 +83,15 @@ if [ ! -f ~/workspace/Core3/.gitmodules ]; then
                 # If we fail to delete the PublicEngine directory, delete as su
                 if [ $? -gt 0 ]; then
                     sudo rm -rf ~/workspace/PublicEngine
+
+                    # If delete fails as su, try removing immutable bit
+                    if [ $? -gt 0 ]; then
+                        sudo chattr -i ~/workspace/PublicEngine
+                        sudo rm -rf ~/workspace/PublicEngine
+                    else
+                        echo "Unable to delete PublicEngine directory, exiting ..."
+                        exit 1
+                    fi
                 fi
             else
                 "We will not delete the existing Public Engine directory, exiting ..."
@@ -153,3 +124,4 @@ if [ ! -f ~/workspace/Core3/.gitmodules ]; then
     fi
 fi
 
+$scripts/setup.sh
