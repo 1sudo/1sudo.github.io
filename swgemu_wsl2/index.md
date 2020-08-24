@@ -21,7 +21,7 @@ nano ~/.bashrc
 * Save the file with ``ctrl+o`` and enter to confirm, ``ctrl+x`` to exit.
 * Close your CLI and reopen it.
 
-![Editing Bashrc](https://raw.githubusercontent.com/1sudo/1sudo.github.io/master/swgemu_wsl2/wsl-bashrc-cd.png)
+![Editing Bashrc](https://raw.githubusercontent.com/1sudo/1sudo.github.io/master/swgemu_wsl2/images/wsl-bashrc-cd.png)
 
 ### Downloading Core3
 In your user directory, ex: ``/home/yourname`` make a workspace directory to clone Core3 and enter it.
@@ -86,7 +86,7 @@ Get the Linux Subsystem's IP address. Note: You will also need to add this to yo
 ```
 ip a
 ```
-![Obtaining Server IP Address](https://raw.githubusercontent.com/1sudo/1sudo.github.io/master/swgemu_wsl2/wsl-ip-address.png)
+![Obtaining Server IP Address](https://raw.githubusercontent.com/1sudo/1sudo.github.io/master/swgemu_wsl2/images/wsl-ip-address.png)
 You can copy the text by highlighting the IP address then right clicking on it.
 
 Enter MySQL.
@@ -122,7 +122,7 @@ nano config.lua
 * Replacing ``<your username>`` with the username of your Linux Subsystem account.
 * Save the file with ``ctrl+o`` and enter to confirm, ``ctrl+x`` to exit.
 
-![Setting TRE Path in Config](https://raw.githubusercontent.com/1sudo/1sudo.github.io/master/swgemu_wsl2/wsl-config-tre-path.png)
+![Setting TRE Path in Config](https://raw.githubusercontent.com/1sudo/1sudo.github.io/master/swgemu_wsl2/images/wsl-config-tre-path.png)
 
 ### Starting the Server
 If still in the conf folder, move up a directory with ``cd ../`` to the ``bin`` folder.
